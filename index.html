@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Flipbooks Tablo Görünümü</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <div class="toolbar">
+      <div class="controls">
+        <select id="sortSelect" aria-label="Sırala" value="date">
+          <option value="none">seçiniz</option>
+          <option value="title">başlığa göre</option>
+          <option value="date">tarihe göre</option>
+          <option value="subject">ders adına göre</option>
+          <option value="grade">sınıfa göre</option>
+        </select>
+
+        <button id="orderBtn" title="Sırayı değiştir" style="display:none">⬇️</button>
+
+        <input id="titleSearch" class="hidden" placeholder="Başlıkta ara..." />
+
+        <select id="subjectFilter" class="hidden"></select>
+        <select id="gradeFilter" class="hidden"></select>
+
+        <input id="startDate" type="date" class="hidden" />
+        <input id="endDate" type="date" class="hidden" />
+
+        <div style="flex:1"></div>
+        <div style="color:var(--muted);font-size:13px">Toplam: <span id="count">0</span></div>
+      </div>
+
+      <div class="actionArea hidden" id="actionArea">
+        <div class="downloadArea" id="downloadArea">
+          <a id="downloadButton" href="#" title="İndirmeyi başlat">💾 Flipbook'u PDF Olarak İndir</a>
+          <a id="saveButton" href="#" title="İndir (reklam girecek)">Dosyayı Kaydet</a>
+          <span id="downloadStatus" class="downloadStatus">
+            <span id="downloadProgress" class="downloadProgress"></span>
+            <span id="downloadMessage" class="downloadMessage"></span>
+          </span>
+          <a id="resetButton" href="#" title="Bitti">Tamam</a>
+          <a id="cancelButton" href="#" title="İndirmeyi İptal Et">İptal</a>
+        </div>
+        <div class="downloadArea" id="downloadArea">
+          <a href="#">Cevap anahtarını indir:</a> Yakında metodbook.github.io'da
+        </div>
+      </div>
+    </div>
+
+    <div id="centerWrap" class="centerWrap">
+      <div class="innerArea">
+        <div id="mainContainer" class="container">
+          <div class="scroll" id="listArea" role="list"></div>
+        </div>
+
+        <div id="drawer" class="drawer hidden" aria-hidden="true">
+          <button id="closeDrawer" class="close-btn">✖</button>
+          <div id="drawerContent"></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:40px"></div>
+  </div>
+
+  <script src="app.js" type="module"></script>
+  <script src="download.js" type="module"></script>
+</body>
+</html>
