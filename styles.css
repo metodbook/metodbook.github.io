@@ -296,10 +296,7 @@ a {
     }
     
     .actionArea {
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
     }
     .downloadArea {
         margin: 10px 0; /* Boşlukları güncelleyin */
