@@ -23,7 +23,7 @@ body {
     background-position: center center;
     background-attachment: fixed;
 
-    overflow: hidden;
+    overflow-x: hidden;
     overflow-y: visible;
 
 }
@@ -308,6 +308,10 @@ a {
     button,
     input {
         width: 100%; /* Mobil cihazlarda daha kolay dokunmak için tam genişlik */
+    }
+
+    body {
+        overflow-x: visible;
     }
 }
 
