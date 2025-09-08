@@ -1,5 +1,6 @@
-const $ = id => document.getElementById(id); //fonksiyon
 import { PDFDocument, rgb, degrees, StandardFonts} from "https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.esm.min.js";
+
+const $ = id => document.getElementById(id); //fonksiyon
 
 const downloadButton = $('downloadButton');
 const saveButton = $('saveButton');
@@ -7,6 +8,9 @@ const downloadProgress = $('downloadProgress');
 const resetButton = $('resetButton');
 const cancelButton = $('cancelButton');
 const drawer = $("drawer");
+const adModal = $("ad-modal");
+const skipAd = $("skip-ad");
+const waitAd = $("wait-ad");
 
 let stopDownload = false;
 
@@ -176,19 +180,62 @@ async function start() {
     }
 }
 
+let adPlayer = null; // We'll store the video.js instance here
+async function initializeAdPlayer() {
+
+    skipAd.classList.add("hidden");
+    waitAd.classList.remove("hidden");
+    for (let i = 10; i > 0; i--) {
+        waitAd.innerText = `Reklamı ${i}s içinde geçip indirme işlemine devam edebilirsiniz...`;
+        await new Promise(r => setTimeout(r, 1000));
+    }
+    skipAd.classList.remove("hidden");
+    waitAd.classList.add("hidden");
+
+    /*
+    if (adPlayer) {
+    adPlayer.dispose(); // Clean up if an instance already exists
+    }
+
+    adPlayer = videojs("ad-video", {
+        controls: true,
+        autoplay: true,
+        muted: false
+    });
+
+    // Load the VAST ad tag
+    adPlayer.vast({
+        url: "https://obese-pin.com/dZmIF/z/d.GhNVvPZtGFUH/geums9xu/Z/U/l_kgPYTPYb0hMMT/YX4gOXA_" // Your VAST URL
+    });
+
+    // Listen for the 'vast.adEnd' event
+    adPlayer.on("vast.adEnd", () => {
+        //skip ad logic
+    });
+
+    // Optional: Handle errors gracefully
+    adPlayer.on("vast.adError", (e) => {
+        console.error("VAST ad error:", e);
+        // Fallback: close modal and start download anyway
+        adModal.style.display = "none";
+        adPlayer.dispose();
+        start();
+    });*/
+}
+
+// Event listener for the download button
 downloadButton.addEventListener("click", () => {
-    console.log("İndirme başlatılıyor...");
     saveButton.classList.add("hidden");
     downloadButton.classList.add("hidden");
     resetButton.classList.add("hidden");
     cancelButton.classList.remove("hidden");
-    start().finally(() => {
-        downloadButton.classList.add("hidden");
-        saveButton.classList.remove("hidden");
-        resetButton.classList.remove("hidden");
-        cancelButton.classList.add("hidden");
-    });
+    
+    adModal.style.display = "flex";
+    
+    // Initialize and play the ad
+    initializeAdPlayer();
 });
+
 
 saveButton.addEventListener("click", () => {
     // indirme tamamlandıktan sonra
@@ -197,6 +244,12 @@ saveButton.addEventListener("click", () => {
 
 function init() {
     logDownloadStatus("");
+
+    if (adPlayer) {
+        adPlayer.dispose(); // Stop the ad and clean up
+    }
+    adModal.style.display = "none";
+
     saveButton.classList.add("hidden");
     downloadButton.classList.remove("hidden");
     resetButton.classList.add("hidden");
@@ -208,5 +261,27 @@ function init() {
 }
 
 resetButton.addEventListener("click", () => init());
+
+cancelButton.addEventListener("click", () => {
+    stopDownload = true;
+    init();
+});
+
+skipAd.addEventListener("click", () => {
+    console.log("Ad finished, starting download...");
+    adModal.style.display = "none";
+    if (adPlayer) {
+        adPlayer.dispose(); // Remove the player instance to free up resources
+    }
+
+    // Start the PDF download process
+    start().finally(() => {
+        downloadButton.classList.add("hidden");
+        saveButton.classList.remove("hidden");
+        resetButton.classList.remove("hidden");
+        cancelButton.classList.add("hidden");
+    });
+});
+
 
 init();

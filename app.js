@@ -129,8 +129,8 @@ function applyAndRender() {
             break;
         case "grade":
             data.sort((a, b) => {
-                const ia = GRADE_ORDER.indexOf(a.grade_name);
-                const ib = GRADE_ORDER.indexOf(b.grade_name);
+                let ia = GRADE_ORDER.indexOf(a.grade_name);
+                let ib = GRADE_ORDER.indexOf(b.grade_name);
                 ia = ia === -1 ? 999 : ia;
                 ib = ib === -1 ? 999 : ib;
                 return ascendingOrder ? ia - ib : ib - ia;
