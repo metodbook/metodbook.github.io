@@ -192,7 +192,7 @@ select option {
 .scroll {
     max-height: 70vh;
     overflow-y: auto;
-    padding-right: 6px;
+    padding-left: 6px;
 }
 
 /* drawer */
@@ -301,7 +301,8 @@ a {
     .downloadArea {
         margin: 10px 0; /* Boşlukları güncelleyin */
         padding: 8px;
-        white-space: default;
+        white-space: unset;
+        max-width: 50ch;
     }
 
     select,
