@@ -185,7 +185,7 @@ async function initializeAdPlayer() {
 
     skipAd.classList.add("hidden");
     waitAd.classList.remove("hidden");
-    for (let i = 10; i > 0; i--) {
+    for (let i = 5; i > 0; i--) {
         waitAd.innerText = `Reklamı ${i}s içinde geçip indirme işlemine devam edebilirsiniz...`;
         await new Promise(r => setTimeout(r, 1000));
     }
